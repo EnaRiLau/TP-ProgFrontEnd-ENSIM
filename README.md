@@ -1,5 +1,17 @@
 # Correction étape par étape des différents TP
 
+## TP 1.2 - Lancer l'application générée
+
+1. Lancer le serveur
+    - Dans le terminal, placez vous **au niveau de la source de votre nouvelle appli** (là où il y a le `package.json` 😉) - Exemple `cd to-do-list-app/`
+    - Lancer la commande de la CLI Angular pour lancer votre application : `ng serve` (ou `ng s`)
+
+2. Afficher l'application
+   - Après le build de l'application, vous devriez voir écrit `"Local:   http://localhost:4200/"` vous indiquant que votre application est accessible sur cette URL. Vous pouvez alors lancer cette URL (ou taper `"o"` dans le terminal) afin d'accéder à l'application buildée et lancée.
+
+
+****
+
 ## TP 1.1 - Créer une nouvelle application Angular
 
 1. Installer la CLI Angular
