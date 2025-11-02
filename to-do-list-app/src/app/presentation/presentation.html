@@ -1,1 +1,90 @@
-<p>presentation works!</p>
+<header>
+        <h1>Jean Dupont</h1>
+        <p>Ingénieur Front-End</p>
+    </header>
+
+
+    <div class="page-container">
+        
+        <!-- Accroche / Profil -->
+        <section id="intro">
+            <h2>Profil</h2>
+            <p>
+                Passionné par le développement web et les technologies front-end, je suis ingénieur spécialisé dans la création d'interfaces utilisateurs intuitives et performantes.
+                Mon objectif est de concevoir des expériences web modernes en utilisant les meilleures pratiques du développement.
+            </p>
+        </section>
+
+        <!-- Compétences -->
+        <section id="skills">
+            <h2>Compétences Techniques</h2>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Langages</td>
+                        <td>HTML5, CSS3, JavaScript, TypeScript</td>
+                    </tr>
+                    <tr>
+                        <td>Frameworks</td>
+                        <td>Angular, React</td>
+                    </tr>
+                    <tr>
+                        <td>Bonnes pratiques</td>
+                        <td>Accessibilité, Ergonomie, Responsive Design, Mobile First</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Portfolio -->
+        <section id="portfolio">
+            <h2>Projets</h2>
+            <ul class="project-gallery">
+                <li class="project">
+                    <img src="https://via.placeholder.com/300x200" alt="Projet 1">
+                    <h3>Projet 1: E-commerce</h3>
+                    <p>Développement d'une plateforme e-commerce responsive avec React.js et Redux.</p>
+                    <a href="#" target="_blank">Voir le projet</a>
+                </li>
+                <li class="project">
+                    <img src="https://via.placeholder.com/300x200" alt="Projet 2">
+                    <h3>Projet 2: Blog React</h3>
+                    <p>Création d'un blog dynamique avec React, intégration d'API RESTful pour la gestion des articles.</p>
+                    <a href="#" target="_blank">Voir le projet</a>
+                </li>
+                <li class="project">
+                    <img src="https://via.placeholder.com/300x200" alt="Projet 3">
+                    <h3>Projet 3: Dashboard</h3>
+                    <p>Développement d'un tableau de bord avec Vue.js et Chart.js pour visualiser des données en temps réel.</p>
+                    <a href="#" target="_blank">Voir le projet</a>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Formulaire de Contact -->
+        <section id="contact">
+            <h2>Contact</h2>
+            <form action="mailto:contact@jeandupont.com" method="post" enctype="text/plain">
+                <div class="field">
+                    <label for="name">Nom :</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="field">
+                    <label for="email">Email :</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="field">
+                    <label for="message">Message :</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+
+                <button type="submit">Envoyer</button>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Jean Dupont - Ingénieur Front-End</p>
+    </footer>

@@ -1,5 +1,38 @@
 # Correction étape par étape des différents TP
 
+## TP 2.2 - Reprendre les TP HTML et CSS
+
+1. Afficher le composant `Presentation` dans le template de `App`
+    - Supprimer le continu initial du App.html
+    - Ajouter le selecteur du component `Presentation` dans le App.html
+    ```html
+    <!-- PLus rien d'autre dans ce fichier -->
+    <app-presentation/>
+    ```
+    > Normalement (si votre IDE ne fait pas tout tout seul 😉) vous devriez avoir une erreur `"NG8001: 'app-presentation' is not a known element"` 
+    > -> Votre component `App` ne connait pas le component `Presentation` -> Il faut donc explicitement lui dire d'importer ce dernier 👇
+    - Importer le component `Presentation` dans le component `App` 
+    ```ts
+    @Component({
+        imports: [Presentation], 👈
+        /* ... */
+    })
+    export class App { /* ... */ }
+    ```
+
+2. Reprendre le TP HTML dans le composant `Presentation`
+    > ⚠️ Angular est un framework SPA -> Il ne faut pas copier tous le fichier HTML : Seulement le contenu du body 
+    > N'hésitez pas à re-regarder le index.html pour revoir la base du fichier `html` commun pour toute l'application 
+    - Copier le contenu du `<body>` du TP HTML dans le fichier `presentation.html`
+
+3. Reprendre le TP CSS dans le composant `Presentation`
+    - Copier le contenu du TP CSS dans le fichier `presentation.css`
+    > ⚠️ Mince... Tout le CSS n'est pas forcement prit en compte... -> Les fichiers de styles par component ne s'appliquent qu'au composant en question : Pour les styles appliqués sur des balises parent du component dans le DOM, il faut les placer dans le fichier `styles.css`
+    > S'il y a des styles globaux, utilisés dans plusieurs component, il faut également les placer dans le `styles.css`
+    - Placer les styles dans les bons fichiers afin d'avoir le styles appliqués comme pendant le TP CSS 😊
+
+****
+
 ## TP 2.1 - Générer un component
 
 > 💡Pour lancer toutes les commandes de CLI dans une application (Exemple : Génération d'un nouveau component), votre terminal doit pointer sur le dossier **à la source de votre nouvelle appli** (là où il y a le `package.json` 😉) - Exemple `cd to-do-list-app/`

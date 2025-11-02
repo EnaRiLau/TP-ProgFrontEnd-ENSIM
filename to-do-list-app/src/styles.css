@@ -1,1 +1,79 @@
-/* You can add global styles to this file, and also import other style files */
+/***************************************/
+/*              Variables              */
+/***************************************/
+html {
+    --header-footer-background: #2c3e50;
+    --header-footer-color: #ecf0f1;
+    --page-background: #f7f7f7;
+    --page-color: #7f8c8d;
+    --page-title: var(--header-footer-background);
+
+    --link-color: #e74c3c;
+    --link-color-hover: #c0392b;
+}
+
+/***************************************/
+/*            Global styles            */
+/***************************************/
+html, body {
+    margin: 0;
+    color: var(--page-color);
+    background-color: var(--page-background);
+    font-family: 'Arial', sans-serif;
+    
+    /* Permet d'aérer le texte en augmentant l'interligne */
+    line-height: 1.6;
+}
+
+* {
+    text-align: center;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    /* Uniformise tous les titres */
+    color: var(--page-title);
+}
+
+/* Définition des tailles spécifiques */
+h1 { font-size: 3rem; }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 1.5rem; }
+
+/* Couleur des liens */
+a { color: var(--link-color); }
+a:hover { color: var(--link-color-hover); }
+
+/* Couleurs des boutons */
+button {
+    color: #FFF;
+    background-color: var(--link-color);
+}
+button:hover {
+    background-color: var(--link-color-hover);
+}
+
+header {
+    padding: 30px 20px;
+    background-color: var(--header-footer-background);
+}
+
+header * {
+    color: var(--header-footer-color);
+    margin: 0;
+}
+
+header p {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+section + section {
+    /* Une section précédée par une autre section à une marge au dessus pour créer une rupture */
+    margin-top: 50px;
+}
+
+/* Container pour le contenu principal */
+.page-container {
+    padding: 40px 20px;
+}
