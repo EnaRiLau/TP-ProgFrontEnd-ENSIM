@@ -1,5 +1,20 @@
 # Correction étape par étape des différents TP
 
+## TP 1.2 - Générer un component
+
+> 💡Pour lancer toutes les commandes de CLI dans une application (Exemple : Génération d'un nouveau component), votre terminal doit pointer sur le dossier **à la source de votre nouvelle appli** (là où il y a le `package.json` 😉) - Exemple `cd to-do-list-app/`
+
+1. Générer un composant `presentation`
+    - Lancer la commande de la CLI Angular pour lancer votre application : `ng generate component presentation` (ou `ng g c presentation`)
+
+2. Trouver le composant dans le projet
+    - Le composant généré se trouve dans le dossier `to-do-list-app/src/app/presentation` : On y retouve les 4 fichiers qui composent ce composant (cf. cours)
+
+À la fin de ce  TP, il est normal que vous n'affichiez pas ce component sur votre http://localhost:4200/ -> RDV au prochain TP 😊
+
+
+****
+
 ## TP 1.2 - Lancer l'application générée
 
 1. Lancer le serveur
