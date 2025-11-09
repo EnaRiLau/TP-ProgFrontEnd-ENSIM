@@ -1,5 +1,80 @@
 # Correction étape par étape des différents TP
 
+## TP 3.1 - Créer un service
+
+1. Générer une interface **`competence`** avec les propriétés : **`categorie`** (**`string`**) / **`valeurs`** (**`string[]`**)
+    - Créer un fichier TypeScript dans le dossier demandé (`competence.ts`)
+    - Initialiser l'interface sans aucun attribut : `export interface Competence { /* ... Futur contenu de mon interface ... */ }`
+    > Pour éviter de faire manuellement ces 2 étapes, la CLI Angular met à votre disposition une commande : `ng generate interface <nom-interface>`
+    - Completer cette interface avec les attributs demandés : 
+    ```ts
+    export interface Competence {
+        categorie : string; // 👈
+        valeurs : string[]; // 👈
+    }
+    ```
+
+2. Générer un service **`competences`** + Créer un attribut de type **`Competence[]`** et y insérer des données
+    - Utiliser la commande de la CLI Angular afin de générer un nouveau service, nommé Competences : `ng generate service presentation\competences`
+    > Comme ce service ne sera utilisé que dans la fonctionnalité `presentation`, il faut le créer dans le bon répertoire.
+    - Créer un attribut dans le service et expliciter son type : 
+    ```ts
+    @Injectable({ /* ... */ })
+    export class Competences {
+        competences : Competence[] = [ /* ... Éléments du tableau ... */ ]; 👈
+    }
+    ```
+    > Si vous avez `Competences[]` de souligné en rouge sur votre IDE, n'oubliez pas d'importer l'interface créée en question 1 dans votre service : `import { Competence } from './competence';`
+    Et voila avec le tableau complété : 
+    ```ts
+    @Injectable({ /* ... */ })
+    export class Competences {
+        competences : Competence[] = [
+            {
+                categorie : "Langages",
+                valeurs : ["HTML5", "CSS3", "JavaScript", "TypeScript"]
+            }, 
+            {
+                categorie : "Frameworks",
+                valeurs : ["Angular", "React"]
+            },
+            {
+                categorie : "Bonnes pratiques",
+                valeurs : ["Accessibilité", "Ergonomie", "Responsive Design", "Mobile First"]
+            }
+        ];
+    }
+    ```
+
+3. Dans le composant **`Presentation`** : Injecter le service **`Competences`** + Appeler **`console.log`** à l'initialisation du composant, pour afficher les données de `competences` dans la console (F12) :
+    - Injecter le service dans le composant `Presentation` : 
+    ```ts
+    @Component({ /* ... */})
+    export class Presentation {
+        competencesService = inject(Competences);
+    }
+    ```
+    > Si `inject` est souligné en rouge par votre IDE, n'oubliez pas d'ajouter son import dans ce composant `import {/* ... */ inject } from '@angular/core';`
+    - Appeler **`console.log`** à l'initialisation du composant : 
+    ```ts
+    @Component({ /* ... */ })
+    export class Presentation {
+        competencesService = inject(Competences);
+
+        constructor() { 👈
+            console.log(
+                "Contenu de mon tableau de compétences ! ",
+                this.competencesService.competences); 👈
+        }
+    }
+    ```
+    > La méthode console.log peut prendre plusieurs paramètres de différents format afin dafficher plusieurs éléments en 1 appel
+    ⚠ Pour que le tableau s'affiche correctement, il ne faut pas qu'il soit dans une chaîne de caractères, comme ici 😁
+    - Tester 🤘 : 
+    Dans votre navigateur, avec votre application Angular lancé (`ng serve`), ouvrir la console (Souvent via `F12`, ou `Clic droit` -> `Inspecter`, onglet `Console`) : 
+    ![](/assets/3.1-console.png)
+
+****
 ## TP 2.2 - Reprendre les TP HTML et CSS
 
 1. Afficher le composant `Presentation` dans le template de `App`
