@@ -20,18 +20,16 @@
         <h2>Compétences Techniques</h2>
         <table>
             <tbody>
-                <tr>
-                    <td>Langages</td>
-                    <td>HTML5, CSS3, JavaScript, TypeScript</td>
-                </tr>
-                <tr>
-                    <td>Frameworks</td>
-                    <td>Angular, React</td>
-                </tr>
-                <tr>
-                    <td>Bonnes pratiques</td>
-                    <td>Accessibilité, Ergonomie, Responsive Design, Mobile First</td>
-                </tr>
+                <!-- Parcourir l'attribut competences pour mutualiser le code pour chaque compétence -->
+                @for (competence of competences; track competence.categorie) {
+                    <tr>
+                        <!-- Affichage de la catégorie de la compétence -->
+                        <td>{{competence.categorie}}</td>
+                        <!-- Affichage de la liste des valeurs de la compétence sous forme de chaîne de caractères
+                          à l'aide de la méthode JavaScript `join`-->
+                        <td>{{competence.valeurs.join(', ')}}</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </section>

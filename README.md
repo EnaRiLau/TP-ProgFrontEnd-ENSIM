@@ -1,5 +1,72 @@
 # Correction étape par étape des différents TP
 
+
+## TP 4.2 - Tableau des compétences
+
+Dans le composant `Presentation` :
+
+1. Supprimer l'appel au `console.log`
+    ```ts
+    @Component({ /* ... */})
+    export class Presentation {
+        competencesService = inject(Competences); 
+        /* ... */*
+
+        // Supprimer le console.log et nous n'avons plus besoin du constructeur 👇
+        //constructor() {
+            // console.log("Contenu de mon tableau de compétences ! ", this.competencesService.competences); 
+        // }
+    }
+    ```
+
+2. Passer l'injection du service `Competences` avec une visibilité `private`
+   > La bonne pratique est de ne jamais utiliser un service dans le HTML d'un composant.  
+    Il faut donc mettre le service en private et manipuler les attibuts / méthodes d'un service
+    depuis le TypeScript d'un composant
+    ```ts
+    @Component({ /* ... */})
+    export class Presentation {
+        private competencesService = inject(Competences); 
+        /* ... */
+    }
+    ```
+
+3. Récupérer les données du service `Competences` dans un attribut
+    Créer un attribut dans le TypeScript, sous l'injection du service, valorisé avec la valeur de l'attribut `competences` du service `Competences`
+    ```ts 
+    @Component({ /* ... */ })
+    export class Presentation {
+        private competencesService = inject(Competences);
+        protected competences : Competence[] = this.competencesService.competences;
+        /* ... */
+    }
+    ```
+    > Cet attribut devant être utilisé dans le HTML par la suite, sa visibilité doit être protected
+
+
+4. Afficher les données dans le tableau des compétences
+    - Utiliser `@for( <!-- ... -->)`  pour afficher 1 ligne par compétence du tableau de compétence
+    - Afficher la liste des valeurs de chaque compétences via la méthode Javascript `.join`
+    Dans le `presentation.html`, on a donc :
+    ```jsx
+    <section id="skills">
+        <h2>Compétences Techniques</h2>
+        <table>
+            <tbody>
+                @for (competence of competences; track competence.categorie) { 👈
+                    <tr>
+                        <td>{{competence.categorie}}</td> 👈
+                        <td>{{competence.valeurs.join(', ')}}</td> 👈
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+    ```
+
+
+
+****
 ## TP 4.1 - Afficher les données
 
 Dans le composant `Presentation` :
