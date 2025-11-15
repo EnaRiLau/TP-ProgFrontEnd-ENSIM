@@ -1,5 +1,55 @@
 # Correction étape par étape des différents TP
 
+## TP 5.2 -  Compléter le routing de l'application
+
+1. Lors de l'accès à la route `''`, rediriger vers la route `to-do-list`
+   - Dans le `app.routes.ts`, définir une nouvelle route :  
+   ```ts
+    /* ... */
+    export const routes: Routes = [
+        /* ... */
+        { 
+            path: '',
+            redirectTo: '/to-do-list',
+            pathMatch: 'full'
+        },
+    ];
+    ```
+    > Ne pas oublier le `pathMatch: 'full'`
+
+2. Générer un component `not-found` dans le dossier `src/app/shared`
+   - Lancer la commande de la CLI Angular pour générer un component : `ng generate component shared/not-found` (ou `ng g c shared/not-found`)
+
+3. Créer une route `not-found` pour afficher le component `NotFound`
+   - Dans le `app.routes.ts`, définir une nouvelle route :  
+   ```ts
+    import { NotFound } from './shared/not-found/not-found';
+    /* ... */
+    export const routes: Routes = [
+        /* ... */
+        {
+            path:'not-found',
+            component: NotFound
+        }
+    ];
+    ```
+
+4. Rediriger vers la route `not-found` si l'url n'est pas reconnue
+ - Dans le `app.routes.ts`, définir une nouvelle route :  
+   ```ts
+    /* ... */
+    export const routes: Routes = [
+        /* ... */
+        { 
+            path: '**',
+            redirectTo: '/not-found',
+            pathMatch: 'full'
+        },
+    ];
+    ```
+    > ⚠ **Cette route doit absoluement être la dernière définie !**
+
+****
 ## TP 5.1 - Créer 2 écrans
 
 1. Supprimer l'import du composant `Presentation` dans template du composant `App`   
