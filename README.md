@@ -25,7 +25,7 @@
     }
     ```
     > Si vous avez `Competences[]` de souligné en rouge sur votre IDE, n'oubliez pas d'importer l'interface créée en question 1 dans votre service : `import { Competence } from './competence';`
-    Et voila avec le tableau complété : 
+    - Et voilà avec le tableau complété : 
     ```ts
     @Injectable({ /* ... */ })
     export class Competences {
@@ -113,7 +113,7 @@
 > 💡Pour lancer toutes les commandes de CLI dans une application (Exemple : Génération d'un nouveau component), votre terminal doit pointer sur le dossier **à la source de votre nouvelle appli** (là où il y a le `package.json` 😉) - Exemple `cd to-do-list-app/`
 
 1. Générer un composant `presentation`
-    - Lancer la commande de la CLI Angular pour lancer votre application : `ng generate component presentation` (ou `ng g c presentation`)
+    - Lancer la commande de la CLI Angular pour pour générer un component : `ng generate component presentation` (ou `ng g c presentation`)
 
 2. Trouver le composant dans le projet
     - Le composant généré se trouve dans le dossier `to-do-list-app/src/app/presentation` : On y retouve les 4 fichiers qui composent ce composant (cf. cours)
