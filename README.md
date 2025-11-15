@@ -5,14 +5,14 @@
 Dans le composant `Presentation` :
 
 1. Créer 2 attributs `nom` et `prenom` (string) :
-    Les 2 attributs doivent être définit dans le `presentation.ts`.  
+    - Les 2 attributs doivent être définit dans le `presentation.ts`.   
     Comme ils devront être affiché dans le HTML, mais non accessible à l'exterieur de `Presentation`, leur visibilité doit être `protected`
     ```ts
     protected nom :string;
     protected prenom :string;
     ```
     > ⚠ À cette étape, vous devriez avoir une erreur de compilation TypeScript : 
-    `Property 'xxxx' has no initializer and is not definitely assigned in the constructor.`  
+    `Property 'xxxx' has no initializer and is not definitely assigned in the constructor.`   
     Cette erreur survient car aucune valorisation n'a été donnée à ces attributs, donc leur type réel est `undefined`. Or, cela ne correspond pas au type `string` demandé.  
     Il faut alors répondre à la question suivante pour corriger cette erreur 😁
 
@@ -23,7 +23,7 @@ Dans le composant `Presentation` :
     ```
 
 3. Afficher ces attributs dans le header :
-   Dans le `presentation.html`, remplacer les nom / prénom qui étaient présents dans la balise `h1` du `header` par les attributs du TypeScript
+   - Dans le `presentation.html`, remplacer les nom / prénom qui étaient présents dans la balise `h1` du `header` par les attributs du TypeScript
     ```html
     <header>
         <h1>{{prenom}} {{nom}}</h1> 👈
