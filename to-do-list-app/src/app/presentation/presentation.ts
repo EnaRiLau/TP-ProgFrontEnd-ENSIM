@@ -10,6 +10,12 @@ import { Competences } from './competences';
 export class Presentation {
   competencesService = inject(Competences); // Injection de l'instance du service `Compentence` dans ce component
 
+  // Création de 2 attributs dans le TypeScript afin de les afficher dans le HTML
+  // Leur visibilité doit être protected
+  protected nom :string = 'Dupont';
+  protected prenom :string = 'Jean';
+
+
   constructor() {
      // Affchage dans la console, lors de la construction de ce component, du tableau de compétence du service
      // La méthode console.log peut prendre plusieurs paramètres de différents format afin dafficher plusieurs éléments en 1 appel
