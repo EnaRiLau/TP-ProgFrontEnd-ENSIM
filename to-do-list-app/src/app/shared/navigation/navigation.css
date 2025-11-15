@@ -1,0 +1,21 @@
+nav {
+    height: 3rem;
+
+    display: flex;
+    gap:2.5rem;
+    justify-content: center;
+    align-items: center;
+
+    border-bottom: 3px solid var(--page-color);
+}
+
+a {
+    color: var(--link-color);
+
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+a:hover {
+    color: var(--link-color-hover);
+}

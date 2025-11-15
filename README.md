@@ -1,6 +1,67 @@
 # Correction étape par étape des différents TP
 
-## TP 5.2 -  Compléter le routing de l'application
+## TP 5.3 - Navigation
+
+1. Créer un composant `navigation`
+   - Lancer la commande de la CLI Angular pour générer un component : `ng generate component shared/navigation` (ou `ng g c shared/navigation`)
+
+2. Afficher le composant `Navigation` dans le template du composant `App`
+    > 💡 Pour une bonne UX, la barre de navigation doit être en haut des écrans, donc avant la balise permettant l'affichage des différents écrans
+    - Utiliser le selecteur du composant `Navigation` dans le `app.html`
+    ```html
+    <app-navigation/> 👈
+    <router-outlet/>
+    ```
+    > Ne pas oublier d'importer `Navigation` dans le `app.ts`
+    ```ts
+    @Component({
+        selector: 'app-root',
+        imports: [RouterOutlet, Navigation], 👈
+        templateUrl: './app.html',
+        styleUrl: './app.css'
+    })
+    export class App { /* ... */ }
+    ```
+
+3. Dans le composant `Navigation` :
+- Créer un lien "Tâches" qui redirige vers la route `to-do-list`
+- Créer un lien "À propos" qui redirige vers `presentation`
+    - Importer `RouterLink` dans `navigation.ts` afin de pouvoir effectuer des redirections natives dans le HTML
+    - Définir la barre de navigation : 
+    ```html
+    <nav>
+        <a routerLink="to-do-list">Tâches</a> <!--Lien vers l'écran ToDoList -->
+        <a routerLink="presentation">À propos</a> <!--Lien vers l'écran Presentation -->
+    </nav>
+    ```
+    - En bonus, un peu de style dans le `navigation.css`
+    ```css
+    nav {
+        height: 3rem;
+
+        display: flex;
+        gap:2.5rem;
+        justify-content: center;
+        align-items: center;
+
+        border-bottom: 3px solid var(--page-color);
+    }
+
+    a {
+        color: var(--link-color);
+
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    a:hover {
+        color: var(--link-color-hover);
+    }
+    ```
+
+
+****
+## TP 5.2 - Compléter le routing de l'application
 
 1. Lors de l'accès à la route `''`, rediriger vers la route `to-do-list`
    - Dans le `app.routes.ts`, définir une nouvelle route :  
