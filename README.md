@@ -1,6 +1,74 @@
 # Correction étape par étape des différents TP
 
+## TP 5.1 - Créer 2 écrans
 
+1. Supprimer l'import du composant `Presentation` dans template du composant `App`   
+    - Dans le `app.html`, supprimer la balise qui affichait le composant `Presentation` : `<app-presentation/>`
+    - Dans le `app.ts`, supprimer l'import au composant `Presentation` :
+    ```ts
+    @Component({
+        selector: 'app-root',
+        imports: [], 👈
+        templateUrl: './app.html',
+        styleUrl: './app.css'
+    })
+    export class App { /* ... */ }
+    ```
+    
+2. Générer un composant `to-do-list`  
+    - Lancer la commande de la CLI Angular pour générer un component : `ng generate component to-do-list` (ou `ng g c to-do-list`)
+
+3. Créer la route `presentation`, affichant le component `Presentation`
+    - Dans le `app.routes.ts`, définir une nouvelle route : 
+    ```ts
+    /* ... */
+    import { Presentation } from './presentation/presentation'; 👈
+
+    export const routes: Routes = [
+        {
+            path: 'presentation', 👈
+            component : Presentation 👈
+        }
+    ];
+    ```
+
+
+4. Créer la route `to-do-list`, affichant le component `ToDoList`  
+ - Dans le `app.routes.ts`, définir une nouvelle route : 
+    ```ts
+    /* ... */
+    import { ToDoList } from './to-do-list/to-do-list'; 👈
+
+    export const routes: Routes = [
+         /* ... */
+        {
+            path: 'to-do-list', 👈
+            component : ToDoList 👈
+        }
+    ];
+    ```
+
+5. Définir où afficher les routes au sein du composant `App`
+   - Dans le `app.html`, ajouter la balise `<router-outlet/>` pour indiquer où les écrans devront être affiché dans le `App`
+   - Si vous l'aviez supprimé depuis que vous avez supprimé le contenu initial du `App`, il faut importer `RouterOutlet` dans le `app.ts` :
+    ```ts
+    @Component({
+        selector: 'app-root',
+        imports: [RouterOutlet], 👈
+        templateUrl: './app.html',
+        styleUrl: './app.css'
+    })
+    export class App { /* ... */ }
+    ```
+
+
+6. Testez vos routes via les URL suivantes :
+   - http://localhost:4200/presentation
+   - http://localhost:4200/to-do-list 
+    > Il faut bien accéder manuellement à ces URL
+  
+    
+****
 ## TP 4.2 - Tableau des compétences
 
 Dans le composant `Presentation` :
@@ -31,7 +99,7 @@ Dans le composant `Presentation` :
     }
     ```
 
-3. Récupérer les données du service `Competences` dans un attribut
+3. Récupérer les données du service `Competences` dans un attribut  
     Créer un attribut dans le TypeScript, sous l'injection du service, valorisé avec la valeur de l'attribut `competences` du service `Competences`
     ```ts 
     @Component({ /* ... */ })
@@ -65,13 +133,12 @@ Dans le composant `Presentation` :
     ```
 
 
-
 ****
 ## TP 4.1 - Afficher les données
 
 Dans le composant `Presentation` :
 
-1. Créer 2 attributs `nom` et `prenom` (string) :
+1. Créer 2 attributs `nom` et `prenom` (string) :  
     Les 2 attributs doivent être définit dans le `presentation.ts`.  
     Comme ils devront être affiché dans le HTML, mais non accessible à l'exterieur de `Presentation`, leur visibilité doit être `protected`
     ```ts
@@ -89,7 +156,7 @@ Dans le composant `Presentation` :
     protected prenom :string = 'Jean';
     ```
 
-3. Afficher ces attributs dans le header :
+3. Afficher ces attributs dans le header :  
    Dans le `presentation.html`, remplacer les nom / prénom qui étaient présents dans la balise `h1` du `header` par les attributs du TypeScript
     ```html
     <header>
