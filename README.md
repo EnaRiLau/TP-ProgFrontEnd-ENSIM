@@ -1,5 +1,115 @@
 # Correction étape par étape des différents TP
 
+## TP 5.4 - Navigation avec paramètres
+
+Dans le composant `ToDoList` :
+
+1. Déclarer l'attribut `showDone` de type `boolean`
+    > Comme dans le futur, cet attribut sera utilisé dans le HTML (étape 4), sa visibilité doit être `protected`
+    ```ts
+    @Component({ /* ... */})
+    export class ToDoList {
+        protected showDone : boolean = false;
+    }
+    ```
+
+2. Ajouter l'implémentation à OnInit sur votre composant `ToDoList`
+    - Ajouter l'implémentation à `OnInit`.  
+    - ⚠ Il ne faut pas oublier d'importer `OnInit` depuis `angular/core`
+    ```ts
+    import { Component, OnInit } from '@angular/core'; 👈
+    @Component({ /* ... */})
+    export class ToDoList  implements OnInit{
+        protected showDone : boolean = false;
+    }
+    ```
+    - Définir la méthode `ngOnInit` demandé par `OnInit` :
+    ```ts
+    @Component({ /* ... */})
+    export class ToDoList  implements OnInit{
+        protected showDone : boolean = false;
+
+        ngOnInit(): void { } 👈
+    }
+    ```
+
+3. Dans la méthode `ngOnInit`, récupérer la valeur du `QueryParam` `done` et la stocker dans `showDone`  
+- attribuer `false` si le paramètre n'est pas renseigné
+  - Injecter les service Angular `ActivatedRoute`   
+    ⚠ Il ne faut pas oublier d'importer `inject` et `ActivatedRoute`
+    ```ts
+    import { Component, inject, OnInit } from '@angular/core'; 👈
+    import { ActivatedRoute } from '@angular/router'; 👈
+
+    @Component({ /* ... */ })
+        export class ToDoList implements OnInit{
+
+        private route = inject(ActivatedRoute); 👈
+
+        protected showDone : boolean = false;
+        ngOnInit(): void {}
+    }
+    ```
+  - Récupérer, en s'abonant aux changements, un `QueryParam` `done`, dans l'attribut `showDone`
+    > `params['done']`, s'il est renseigné, est une chaîne de caractères.  
+    Or, nous voulons récupérer la valeur sous forme de `boolean` (car une chaîne de caractères est `Truthy`).  
+    Une solution est par exemple de comparer `params['done']` avec une valeur voulue en `QueryParam`  
+    Par exemple : `params['done'] === 'true'`
+    ```ts
+        @Component({ /* ... */ })
+        export class ToDoList implements OnInit{
+            private route = inject(ActivatedRoute); 
+            protected showDone : boolean = false;
+
+            ngOnInit(): void {
+                this.route.queryParams.subscribe((params) => {
+                    // Récupération de la potentielle valeur du QueryParam
+                    // Ici, si `params['done']` n'existe pas, ou si ça valeur est autre chose que `'true'`,
+                    // alors `showDone` vaudra `false`, sinon, `showDone` vaudra `true`
+                    this.showDone = params['done'] === 'true';
+                });
+            }
+        }
+    ```
+    
+    
+
+4. Dans le template, créer des **boutons** conditionné à la valeur de **`showDone`**  
+- `true` : "Masquer les tâches terminées"
+- `false` : "Toutes les tâches"
+    - Dans le `to-do-list.html`, utiliser le `@if` / `@else` pour conditionner l'affichage d'un bouton 
+    ```jsx
+    @if (showDone) {
+        <button>Masquer les tâches terminées</button>
+    } @else {
+        <button>Toutes les tâches</button>
+    }
+    ```
+
+5.  Au clic sur le bouton, naviguer vers la route permettant de modifier la valeur de `showDone`
+    - Importer `RouterLink` dans le `to-do-list.ts` afin d'effectuer des navigations
+    ```ts
+    import { ActivatedRoute, RouterLink } from '@angular/router'; 👈
+
+    @Component({
+        selector: 'app-to-do-list',
+        imports: [RouterLink], 👈
+        templateUrl: './to-do-list.html',
+        styleUrl: './to-do-list.css',
+    })
+    export class ToDoList implements OnInit /* ... */ }
+    ```
+    - Effectuer les navigations dans le HTML
+    ```jsx
+    @if (showDone) {
+        <button routerLink="/to-do-list" [queryParams]="{done: 'false'}">Masquer les tâches terminées</button>
+    } @else {
+        <button routerLink="/to-do-list" [queryParams]="{done: 'true'}">Toutes les tâches</button>
+    }
+    ```
+
+
+****
 ## TP 5.3 - Navigation
 
 1. Créer un composant `navigation`

@@ -1,1 +1,7 @@
+@if (showDone) {
+    <button routerLink="/to-do-list" [queryParams]="{done: 'false'}">Masquer les tâches terminées</button>
+} @else {
+    <button routerLink="/to-do-list" [queryParams]="{done: 'true'}">Toutes les tâches</button>
+}
+
 <p>to-do-list works!</p>
