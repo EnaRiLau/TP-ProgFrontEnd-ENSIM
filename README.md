@@ -32,7 +32,7 @@ Dans le composant `Presentation` :
     ```
 
 3. Récupérer les données du service `Competences` dans un attribut
-    Créer un attribut dans le TypeScript, sous l'injection du service, valorisé avec la valeur de l'attribut `competences` du service `Competences`
+    - Créer un attribut dans le TypeScript, sous l'injection du service, valorisé avec la valeur de l'attribut `competences` du service `Competences`
     ```ts 
     @Component({ /* ... */ })
     export class Presentation {
@@ -72,7 +72,7 @@ Dans le composant `Presentation` :
 Dans le composant `Presentation` :
 
 1. Créer 2 attributs `nom` et `prenom` (string) :
-    Les 2 attributs doivent être définit dans le `presentation.ts`.  
+    - Les 2 attributs doivent être définit dans le `presentation.ts`.  
     Comme ils devront être affiché dans le HTML, mais non accessible à l'exterieur de `Presentation`, leur visibilité doit être `protected`
     ```ts
     protected nom :string;
@@ -90,7 +90,7 @@ Dans le composant `Presentation` :
     ```
 
 3. Afficher ces attributs dans le header :
-   Dans le `presentation.html`, remplacer les nom / prénom qui étaient présents dans la balise `h1` du `header` par les attributs du TypeScript
+   - Dans le `presentation.html`, remplacer les nom / prénom qui étaient présents dans la balise `h1` du `header` par les attributs du TypeScript
     ```html
     <header>
         <h1>{{prenom}} {{nom}}</h1> 👈
@@ -213,7 +213,7 @@ Dans le composant `Presentation` :
 > 💡Pour lancer toutes les commandes de CLI dans une application (Exemple : Génération d'un nouveau component), votre terminal doit pointer sur le dossier **à la source de votre nouvelle appli** (là où il y a le `package.json` 😉) - Exemple `cd to-do-list-app/`
 
 1. Générer un composant `presentation`
-    - Lancer la commande de la CLI Angular pour lancer votre application : `ng generate component presentation` (ou `ng g c presentation`)
+    - Lancer la commande de la CLI Angular pour générer un component : `ng generate component presentation` (ou `ng g c presentation`)
 
 2. Trouver le composant dans le projet
     - Le composant généré se trouve dans le dossier `to-do-list-app/src/app/presentation` : On y retouve les 4 fichiers qui composent ce composant (cf. cours)
