@@ -1,5 +1,21 @@
 # Correction étape par étape des différents TP
 
+## TP 6.1 - Communication indirecte (service)
+
+1. Créer une interface **`Task`** dans le dossier **`src/app/to-do-list`** avec des attributs :
+    - **`id`** _(`number`)_
+    - **`libelle`** (`string`)
+    - **`description`** _(`string`)_
+    - **`done`** _(`boolean`)_
+2. Générer un service **`gestion-taches`** dans le dossier **`to-do-list`**
+3. Dans le service **`GestionTaches`** :
+    - Initialiser un attribut privé **`tasks`** _(`Task[]`)_
+    - Valoriser l'attribut **`tasks`** **avec la liste de la slide suivante**
+    - Créer une méthode **`getTaches`** retournant les valeurs de **`tasks`**
+4. Dans le composant **`ToDoList`** :
+    - Injecter le service **`GestionTaches`** et récupérer la liste de tâches dans un attribut **`tasks`** _(`Task[]`)_ 
+    - Afficher la liste de tâches issues du service dans le template
+
 ## TP 5.4 - Navigation avec paramètres
 
 Dans le composant `ToDoList` :
