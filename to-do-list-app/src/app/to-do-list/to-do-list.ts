@@ -1,5 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { GestionTaches } from './gestion-taches';
+import { Task } from './task';
 
 @Component({
   selector: 'app-to-do-list',
@@ -12,8 +14,14 @@ export class ToDoList implements OnInit{
   // Service Angular permettant notamment de récupérer des paramètres d'URL
   private route = inject(ActivatedRoute);
 
+  // Service Angular permettant de gérer les tâches
+  private gestionTaches = inject(GestionTaches);
+
   // Attribut permettant d'indiquer s'il faut afficher les tâches terminées
   protected showDone : boolean = false;
+
+  // Liste des tâches à afficher
+  protected tasks: Task[] = this.gestionTaches.getTaches();
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {

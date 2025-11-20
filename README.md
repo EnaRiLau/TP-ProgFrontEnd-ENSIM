@@ -1,5 +1,70 @@
 # Correction étape par étape des différents TP
 
+## TP 6.1 - Communication indirecte (service)
+
+1. Créer une interface **`Task`** dans le dossier **`to-do-list`** :
+    ```bash
+    ng g i to-do-list/task
+    ```
+    ```ts
+    export interface Task {
+        id: number;
+        libelle: string;
+        description: string;
+        done: boolean;
+    }
+    ```
+
+2. Générer un service **`gestion-taches`** dans le dossier **`to-do-list`**
+    ```bash
+    ng g s to-do-list/gestion-taches
+    ```
+
+3. Dans le service **`GestionTaches`** :
+    - Initialiser un attribut privé **`tasks`** _(`Task[]`)_
+    - Valoriser l'attribut **`tasks`** _(données sur la slide suivante)_
+    ```ts
+    @Injectable({
+        providedIn: 'root'
+    })
+    export class GestionTaches {
+        private tasks: Task[] = [
+            {id: 1, done: false, libelle: 'xxx', description: 'xxx'},
+            // ...
+        ];
+    }
+    ```
+    - Créer une méthode **`getTaches`** retournant les valeurs de **`tasks`**
+    ```ts
+    @Injectable({/* ... */})
+    export class GestionTaches {
+        // tasks
+
+        getTaches(): Task[] {
+            return this.tasks;
+        }
+    }
+    ```
+
+4. Dans le composant **`ToDoList`** :
+    - Injecter le service **`GestionTaches`** et récupérer la liste de tâches dans un attribut **`tasks`** _(`Task[]`)_
+    ```ts
+    import {GestionTaches} from './gestion-taches';
+    @Component({ /* ... */})
+    export class ToDoList {
+        private gestionTaches = inject(GestionTaches);
+        protected tasks: Task[] = this.gestionTaches.getTaches();
+    }
+    ```
+    - Afficher la liste de tâches issues du service dans le template
+    ```html
+    <ul>
+        @for (tsk of tasks; track tsk.id) {
+            <li>{{tsk.libelle}} ({{tsk.done ? 'oui' : 'non'}})</li>
+        }
+    </ul>
+    ```
+
 ## TP 5.4 - Navigation avec paramètres
 
 Dans le composant `ToDoList` :
