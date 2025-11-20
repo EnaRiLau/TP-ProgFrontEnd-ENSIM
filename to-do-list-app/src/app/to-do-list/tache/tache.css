@@ -1,0 +1,55 @@
+.media {
+  border: 1px solid;
+  border-color: lightgray;
+  min-width: 500px;
+  max-width: 800px;
+  width: 60%;
+  min-height: 100px;
+  margin: auto;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.media .badge {
+  position: absolute;
+  top: -51px;
+  right: -51px;
+  background-color: green;
+  width: 100px;
+  height: 100px;
+  transform: rotate(-45deg);
+}
+
+.media .badge * {
+  color: transparent;
+  background-color: white;
+  background-size: cover;
+  background-clip: text;
+  transform: rotate(45deg);
+  display: block;
+  position: absolute;
+  top: 37px;
+  left: 11px;
+}
+
+.media * {
+  text-align: left;
+}
+
+.media.done {
+  border-color: darkgreen;
+}
+
+.media .title {
+  font-weight: 1.25rem;
+  font-weight: bold;
+}
+
+.media.done .title {
+  color: green;
+}
+
+.media .body {
+  font-style: italic;
+}

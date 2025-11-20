@@ -1,0 +1,28 @@
+<div class="media" [class.done]="tache().done">
+
+  <div class="title">
+    {{tache().libelle}}
+  </div>
+
+  <div class="body">
+    {{tache().description}}
+  </div>
+
+  <div>
+    <button (click)="toggle()">
+      @if (tache().done) {
+        Marquer comme non terminée
+      }
+      @else {
+        Marquer comme terminée
+      }
+    </button>
+  </div>
+
+  @if (tache().done) {
+    <div class="badge">
+      <span title="Tâche terminée">✔️</span>
+    </div>
+  }
+
+</div>

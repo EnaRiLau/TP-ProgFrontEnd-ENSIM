@@ -1,0 +1,7 @@
+app-tache {
+  display: block;
+}
+
+app-tache + app-tache {
+  margin-top: 1.5rem;
+}

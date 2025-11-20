@@ -2,10 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { GestionTaches } from './gestion-taches';
 import { Task } from './task';
+import { Tache } from "./tache/tache";
 
 @Component({
   selector: 'app-to-do-list',
-  imports: [RouterLink],
+  imports: [RouterLink, Tache],
   templateUrl: './to-do-list.html',
   styleUrl: './to-do-list.css',
 })
@@ -30,6 +31,10 @@ export class ToDoList implements OnInit{
       // alors `showDone` vaudra `false`, sinon, `showDone` vaudra `true`
       this.showDone = params['done'] === 'true';
     });
+  }
+
+  toggle(id: number): void {
+    this.gestionTaches.toggle(id);
   }
 
 }

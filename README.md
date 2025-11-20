@@ -1,5 +1,111 @@
 # Correction étape par étape des différents TP
 
+## TP 6.2 - Un composant `Tache` pour représenter une tâche
+
+1. Créer un nouveau composant **`tache`**
+    ```bash
+    ng g c to-dodo-list/tache
+    ```
+
+2. Dans le composant **`Tache`** :
+    - Créer un `input` obligatoire **`tache`** _(`Task`)_
+    ```ts
+    @Component({/* ... */})
+    export class Tache {
+        readonly tache = input.required<Task>();
+    }
+    ```
+    - Faire le template pour afficher la `tache`
+    > Consulter le fichier CSS du composant `Tache` pour le design
+    ```html
+    <div class="media" [class.done]="tache().done">
+      <div class="title">
+        {{tache().libelle}}
+      </div>
+      <div class="body">
+        {{tache().description}}
+      </div>
+      @if (tache().done) {
+        <div class="badge">
+          <span title="Tâche terminée">✔️</span>
+        </div>
+      }
+    </div>
+    ```
+3. Dans le composant **`ToDoList`**, afficher chaque tâche avec le composant **`Tache`**
+    > Consulter le fichier CSS du composant `ToDoList` pour le design
+    ```html
+    @for (tsk of tasks; track tsk.id) {
+        <app-tache [tache]="tsk" />
+    }
+    ```
+
+4. Dans le service **`GestionTache`** :
+    - Ajouter une méthode **`toggle`**  
+    &rarr; acceptant l'**identifiant** d'une tâche en paramètre  
+    &rarr; qui inverse la valeur **`done`** de la tâche ayant l'identifiant spécifié
+    ```ts
+    @Injectable({/* ... */})
+    export class GestionTaches {
+        // ...
+
+        toggle(id: number): void {
+            const tsk = this.tasks.find((t) => t.id === id);
+            if (tsk) {
+                tsk.done = !tsk.done;
+            }
+        }
+    }
+    ```
+
+5. Dans le composant **`Tache`** :
+    - Créer un `output` **`terminee`**
+    ```ts
+    @Component({/* ... */})
+    export class Tache {
+        // tache
+        readonly terminee = output();
+    }
+    ```
+    - Ajouter un bouton dont le texte est conditionné à la valeu de **`done`** :  
+    &rarr; **`true` :** Marquer comme terminée  
+    &rarr; **`false` :** Marquer comme non terminée
+    ```html
+    <button>
+        @if (tache().done) {
+            Marquer comme non terminée
+        }
+        @else {
+            Marquer comme terminée
+        }
+    </button>
+    ```
+    - Au clic sur le bouton, déclencher l'`output` **`terminee`**
+    ```ts
+    @Component({/* ... */})
+    export class Tache {
+        // ...
+        toggle(): void {
+            this.terminee.emit();
+        }
+    }
+    ```
+    ```html
+    <button (click)="toggle()">...</button>
+    ```
+6. Dans le composant **`ToDoList`** :
+    - Quand l'`output` d'une tâche est déclenché, appeler la méthode **`toggle`** de **`GestionTache`**
+    ```ts
+    toggle(id: number): void {
+        this.gestionTaches.toggle(id);
+    }
+    ```
+    ```html
+    @for (tsk of tasks; track tsk.id) {
+        <app-tache ... (terminee)="toggle(tsk.id)" />
+    }
+    ```
+
 ## TP 6.1 - Communication indirecte (service)
 
 1. Créer une interface **`Task`** dans le dossier **`src/app/to-do-list`** avec des attributs :

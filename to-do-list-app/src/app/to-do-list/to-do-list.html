@@ -4,8 +4,6 @@
     <button routerLink="/to-do-list" [queryParams]="{done: 'true'}">Toutes les tâches</button>
 }
 
-<ul>
-  @for (tsk of tasks; track tsk.id) {
-    <li>{{tsk.libelle}} ({{tsk.done ? 'oui' : 'non'}})</li>
-  }
-</ul>
+@for (tsk of tasks; track tsk.id) {
+  <app-tache [tache]="tsk" (terminee)="toggle(tsk.id)" />
+}
