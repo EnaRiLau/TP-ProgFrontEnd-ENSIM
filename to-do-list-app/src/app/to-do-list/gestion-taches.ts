@@ -52,6 +52,7 @@ export class GestionTaches {
   }
 
   enregistrer(tache: Task) {
+    tache.id = this.tasks.length;
     this.tasks.push(tache);
   }
 
