@@ -1,4 +1,4 @@
-import { Directive, inject } from '@angular/core';
+import { Directive, forwardRef, inject } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { GestionTaches } from './gestion-taches';
 
@@ -6,7 +6,7 @@ import { GestionTaches } from './gestion-taches';
   selector: '[appLibelleUniqueValidator]',providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: LibelleUniqueValidator,
+      useExisting: forwardRef(() =>LibelleUniqueValidator),
       multi: true // Très important de garder le `multi:true`
     }
   ]
