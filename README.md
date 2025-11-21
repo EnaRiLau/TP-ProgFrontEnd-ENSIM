@@ -1,5 +1,195 @@
 # Correction étape par étape des différents TP
 
+## TP 7.2 - Validation d'un formulaire template driven
+
+Dans le composant AjoutTacheTemplateDriven :
+
+1. Rendre le champ `libelle` :  
+    → obligatoire  
+    → nécessitant entre 5 et 20 caractères 
+    ```html
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <div>
+        <label>Libellé</label>
+        <input type="text" name="libelle" [(ngModel)]="model.libelle" 
+        required minlength="5" maxlength="20"/> // 👈
+    </div>
+
+    <div>
+        <label>Terminé</label>
+        <input type="checkbox" name="done" [(ngModel)]="model.done" />
+    </div>
+
+    <button type="submit">Ajouter</button>
+    </form>
+    ```
+
+
+2. Lorsque le champ est invalide :  
+    → afficher le label en rouge  
+    → mettre les bordures du champ en rouge  
+    → afficher un message, en rouge, sous le champ  
+    → désactiver le bouton de soumission  
+    → empêcher le déclenchement du l'``output``  
+
+      - Commençons par gérer le style ~
+
+         ```html
+         <!-- ... -->
+         <label  [class.label-invalide]="libelleCtrl.invalid && libelleCtrl.touched">Libellé</label>  <!-- 👈 -->
+         <input type="text" name="libelle" [(ngModel)]="model.libelle" 
+             required minlength="5" maxlength="20"  <!-- 👈 -->
+             [class.input-invalide]="libelleCtrl.invalid && libelleCtrl.touched" <!-- 👈 -->
+             #libelleCtrl="ngModel" />  <!-- 👈 --> <!-- Requis pour pouvoir vérifier la validité de ce champ -->
+         <!-- ... -->
+         ```
+         >Angular met à disposition `[ngClass]` **MAIS Angular ne préconise plus son utilisation depuis Angular 20** 
+         ↔ Il faut donc utiliser `[class.nom-class-css]="maCondition`
+
+         et 
+
+         ```css
+         /* Champ invalide */
+         .input-invalide {
+             border-color: red;
+         }
+
+         /* Label en erreur */
+         .label-invalide {
+             color: red;
+         }
+
+         /* Texte d’erreur */
+         .msg-erreur {
+             color: red;
+         }
+         ```
+
+      - Maintenant, gérons les messages d'erreurs et la désactivation du bouton 
+
+         ```html
+         <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+             <div>
+                 <label  [class.label-invalide]="libelleCtrl.invalid && libelleCtrl.touched">Libellé</label>
+                 <input type="text" name="libelle" [(ngModel)]="model.libelle" 
+                 required minlength="5" maxlength="20" 
+                 [class.input-invalide]="libelleCtrl.invalid && libelleCtrl.touched"
+                 #libelleCtrl="ngModel" />
+
+                 <!-- 👇 -->
+                 @if (libelleCtrl.invalid && libelleCtrl.touched) {
+                 <div class="msg-erreur">
+
+                     @if (libelleCtrl.errors?.['required']) {
+                     <div>Le libellé est obligatoire.</div>
+                     }
+
+                     @if (libelleCtrl.errors?.['minlength']) {
+                     <div>Le libellé doit contenir au moins 5 caractères.</div>
+                     }
+
+                     @if (libelleCtrl.errors?.['maxlength']) {
+                     <div>Le libellé ne peut pas dépasser 20 caractères.</div>
+                     }
+
+                 </div>
+                 }
+             </div>
+             <!-- ... -->
+             <button type="submit"
+                     [disabled]="form.invalid">
+                 Ajouter
+             </button>
+         </form>
+         ```
+      - Pour empêcher le déclanchement de l'``output``, il faut ajouter une condition dans la méthode `onSubmit` :
+        ```ts
+        onSubmit(form: NgForm) {
+            if ( form.invalid ) { 
+                return; 
+            }
+            /* ... */
+        }
+        ```
+
+
+3. Bonus : Le champ libelle est invalide si sa valeur est égale au libelle d'une tâche existante (utilisez toLowerCase pour la comparaison)
+    > Rappel : **Un Service est garant des données dont il est responsable** : C'est donc au `GestionTacheService` de faire cette vérification : 
+    ```ts
+    @Injectable({ /* ... */ })
+    export class GestionTacheService {
+        /* ... */
+
+        libelleExiste(libelle: string): boolean {
+            // Retournera true si au moins 1 élément à le même libellé que le paramètre de la méthode
+            return this.taches.some(t => t.libelle.toLowerCase() === libelle.toLowerCase()); 
+        }
+    }
+    ```
+    - Ensuite, il faut créer un validateur Custom :
+        ```bash
+        ng g d to-do-list/libelle-unique-validator
+        ```
+        ```ts
+        @Directive({
+            selector: '[appLibelleUniqueValidator]',
+            providers: [
+                {
+                    provide: NG_VALIDATORS, // 👈
+                    useExisting: LibelleUniqueValidator, // 👈
+                    multi: true // Très important de garder le `multi:true`  // 👈
+                }
+            ]
+        })
+        export class LibelleUniqueValidator implements Validator { // 👈
+
+            private gestionTaches = inject(GestionTaches); // 👈
+
+            validate(control: AbstractControl): ValidationErrors | null {  // 👈
+                const libelle = control.value ?? '';
+
+                if (!libelle.trim()) {
+                return null; // Ne pas valider si vide car rôle du validator `required`
+                }
+
+                return this.gestionTaches.libelleExiste(libelle) ? { libelleExiste: true } : null;
+            }
+        }
+        ```
+    - Et enfin, il faut utiliser ce validateur
+        ```ts
+        @Component({
+            selector: 'app-ajout-tache-template-driven',
+            imports: [/* ... */ , LibelleUniqueValidator], // 👈
+            templateUrl: './ajout-tache-template-driven.html',
+            styleUrl: './ajout-tache-template-driven.css'
+        })
+        export class AjoutTacheTemplateDriven { /* ... */ }
+        ```
+
+        ```html
+        <div>
+            <label  [class.label-invalide]="libelleCtrl.invalid && libelleCtrl.touched">Libellé</label>
+            <input type="text" name="libelle" [(ngModel)]="model.libelle" 
+            required minlength="5" maxlength="20" 
+            [class.input-invalide]="libelleCtrl.invalid && libelleCtrl.touched"
+            appLibelleUniqueValidator  <!-- 👈 -->
+            #libelleCtrl="ngModel" /> <!-- Requis pour pouvoir vérifier la validité de ce champ -->
+
+            <!-- MESSAGES D’ERREUR -->
+            @if (libelleCtrl.invalid && libelleCtrl.touched) {
+            <div class="msg-erreur">
+                <!-- ... -->
+                @if (libelleCtrl.errors?.['libelleExiste']) {  <!-- 👈 -->
+                <div class="msg-erreur">Ce libellé existe déjà.</div>
+                }
+
+            </div>
+            }
+        </div>
+        ```
+
+****
 ## TP 7.1 - Formulaire template driven
 
 1. Créer le composant `ajout-tache-template-driven`
@@ -13,7 +203,7 @@
         → un champ pour indiquer l'état done de la tâche
         → un bouton de soumission
     - Créer un output `nouvelleTache`
-    - À la soumission du formulaire, créer un objet de type Tache et l'envoyer via l'output
+    - À la soumission du formulaire, créer un objet de type Tache et l'envoyer via l'``output``
 
         - Il faut tout d'abord définir le model sur lequel se baser pour notre formulaire : 
         ```ts

@@ -1,0 +1,14 @@
+/* Champ invalide */
+.input-invalide {
+  border-color: red;
+}
+
+/* Label en erreur */
+.label-invalide {
+  color: red;
+}
+
+/* Texte d’erreur */
+.msg-erreur {
+  color: red;
+}

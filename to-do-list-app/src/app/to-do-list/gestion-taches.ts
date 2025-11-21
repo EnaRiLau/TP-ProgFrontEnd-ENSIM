@@ -55,4 +55,9 @@ export class GestionTaches {
     this.tasks.push(tache);
   }
 
+  libelleExiste(libelle: string): boolean {
+      // Retournera true si au moins 1 élément à le même libellé que le paramètre de la méthode
+      return this.tasks.some(t => t.libelle.toLowerCase() === libelle.toLowerCase()); 
+  }
+
 }
