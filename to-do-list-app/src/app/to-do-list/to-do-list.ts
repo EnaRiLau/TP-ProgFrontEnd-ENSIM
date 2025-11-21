@@ -3,10 +3,11 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { GestionTaches } from './gestion-taches';
 import { Task } from './task';
 import { Tache } from "./tache/tache";
+import { AjoutTacheTemplateDriven } from './ajout-tache-template-driven/ajout-tache-template-driven';
 
 @Component({
   selector: 'app-to-do-list',
-  imports: [RouterLink, Tache],
+  imports: [RouterLink, Tache, AjoutTacheTemplateDriven],
   templateUrl: './to-do-list.html',
   styleUrl: './to-do-list.css',
 })
@@ -35,6 +36,10 @@ export class ToDoList implements OnInit{
 
   toggle(id: number): void {
     this.gestionTaches.toggle(id);
+  }
+
+  ajouterTache(tache: Task) {
+    this.gestionTaches.enregistrer(tache);
   }
 
 }

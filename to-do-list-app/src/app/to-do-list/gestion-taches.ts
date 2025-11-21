@@ -43,11 +43,16 @@ export class GestionTaches {
     return this.tasks;
   }
 
-  // Méthode qui inverse l'état d'un tâche
+  // Méthode qui inverse l'état d'une tâche
   toggle(id: number): void {
     const tsk = this.tasks.find((t) => t.id === id);
     if (tsk) {
       tsk.done = !tsk.done;
     }
   }
+
+  enregistrer(tache: Task) {
+    this.tasks.push(tache);
+  }
+
 }

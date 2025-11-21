@@ -1,3 +1,6 @@
+<app-ajout-tache-template-driven 
+  (nouvelleTache)="ajouterTache($event)"/>
+
 @if (showDone) {
     <button routerLink="/to-do-list" [queryParams]="{done: 'false'}">Masquer les tâches terminées</button>
 } @else {

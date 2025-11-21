@@ -1,5 +1,147 @@
 # Correction étape par étape des différents TP
 
+## TP 7.1 - Formulaire template driven
+
+1. Créer le composant `ajout-tache-template-driven`
+    ```bash
+    ng generate component to-do-list/ajout-template-driven
+    ```
+
+2. Dans le composant `AjoutTacheTemplateDriven` :
+    - Créer un formulaire contenant :  
+        → un champ pour saisir le libelle de la tâche
+        → un champ pour indiquer l'état done de la tâche
+        → un bouton de soumission
+    - Créer un output `nouvelleTache`
+    - À la soumission du formulaire, créer un objet de type Tache et l'envoyer via l'output
+
+        - Il faut tout d'abord définir le model sur lequel se baser pour notre formulaire : 
+        ```ts
+        import { Task } from '../task'; // 👈
+
+        @Component({ /* ... */ })
+        export class AjoutTacheTemplateDriven {
+            model : Partial<Task> = { // 👈
+                libelle : '',
+                done : false
+            }
+        }
+        ```
+        >Ici, le choix d'avoir typé model avec `Partial<Task>` est purement pour montrer cette syntaxe 😁  
+        `Partial<X>` permet de typer un élément qui contiendra que des attributs en commun avec l'interface `X`, mais ils seront tous facultatifs  
+        ↔ `Partial<X>` est une interface qui définit tous les attributs de `X` mais leur type n'est plus `: Y` mais `: Y | undefined`
+        - Puis importer le `FormsModule` afin de pouvoir définir un formulaire template-driven dans le HTML
+        ```ts
+        @Component({
+            selector: 'app-ajout-tache-template-driven',
+            imports: [FormsModule], // 👈
+            templateUrl: './ajout-tache-template-driven.html',
+            styleUrl: './ajout-tache-template-driven.css',
+        })
+        export class AjoutTacheTemplateDriven { /* ... */ }        
+        ```
+        - Il faut ensuite définir le formulaire dans le HTML
+        ```html
+        <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+        <div>
+            <label>Libellé :</label>
+            <input type="text" name="libelle" [(ngModel)]="model.libelle" required />
+        </div>
+
+        <div>
+            <label>Terminé :</label>
+            <input type="checkbox" name="done" [(ngModel)]="model.done" />
+        </div>
+
+        <button type="submit">Ajouter</button>
+        </form>
+        ```
+        - Et enfin, il faut définir le `output` et émettre le formulaire lors de la soumission
+        ```ts
+        @Component({
+            selector: 'app-ajout-tache-template-driven',
+            imports: [FormsModule],
+            templateUrl: './ajout-tache-template-driven.html',
+            styleUrl: './ajout-tache-template-driven.css',
+        })
+        export class AjoutTacheTemplateDriven {
+
+            nouvelleTache = output<Task>(); // 👈
+
+            model : Partial<Task> = {
+                libelle : '',
+                done : false
+            }
+
+            onSubmit(form: NgForm) { // 👈
+                if (form.valid) {
+                const tache: Task = {
+                    id: 0,
+                    description: '',
+                    libelle : this.model .libelle || '',
+                    done : this.model.done || false
+                };
+
+                this.nouvelleTache.emit(tache);
+                form.resetForm();
+                }
+            }
+
+        }
+        ```
+
+
+3. Dans le service `GestionTache` :
+    - Créer une méthode enregistrer permettant d'ajouter une tâche à la liste
+        ```ts 
+        @Injectable({ providedIn: 'root' })
+        export class GestionTaches {
+            enregistrer(tache: Task) { // 👈
+                this.tasks.push(tache);
+            }
+        }
+        ```
+
+
+4. Dans le composant `ToDoList` :
+    - Ajouter le composant `AjoutTacheTemplateDriven` en haut de l'écran
+    - À la réception d'un événement `nouvelleTache`, appeler la méthode enregistrer du service
+  
+      - Dans le HTML, ajouter le component `AjoutTacheTemplateDriven` à l'aide de son selector : 
+        ```html
+        <app-ajout-tache-template-driven />
+
+        /* ... */
+        ```
+        > Il faut bien penser à importer ce component dans le TypeScript du `ToDoList`
+
+        ```ts
+        @Component({
+            selector: 'app-to-do-list',
+            imports: [/* ... */ , AjoutTacheTemplateDriven], // 👈
+            templateUrl: './to-do-list.html',
+            styleUrl: './to-do-list.css',
+        })
+        export class ToDoList implements OnInit{ /* ... */ }
+        ```
+      - Réagir lors de la réception de l'évenement du `output` en appelant la méthode du service 
+        ```ts
+        @Component({ /* ... */ })
+        export class ToDoList implements OnInit{ 
+            /* ... */ 
+            
+            ajouterTache(tache: Task) { // 👈
+                this.gestionTaches.enregistrer(tache);  // 👈
+            }
+        }
+        ```
+        ```html
+        <app-ajout-tache-template-driven 
+            (nouvelleTache)="ajouterTache($event)"/> <!-- 👈 -->
+        ```
+
+
+****
 ## TP 6.2 - Un composant `Tache` pour représenter une tâche
 
 1. Créer un nouveau composant **`tache`**
@@ -106,6 +248,7 @@
     }
     ```
 
+****
 ## TP 6.1 - Communication indirecte (service)
 
 1. Créer une interface **`Task`** dans le dossier **`src/app/to-do-list`** avec des attributs :
@@ -122,6 +265,7 @@
     - Injecter le service **`GestionTaches`** et récupérer la liste de tâches dans un attribut **`tasks`** _(`Task[]`)_ 
     - Afficher la liste de tâches issues du service dans le template
 
+****
 ## TP 5.4 - Navigation avec paramètres
 
 Dans le composant `ToDoList` :
