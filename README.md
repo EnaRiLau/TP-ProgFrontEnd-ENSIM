@@ -80,15 +80,15 @@ Dans le composant AjoutTacheTemplateDriven :
                  @if (libelleCtrl.invalid && libelleCtrl.touched) {
                  <div class="msg-erreur">
 
-                     @if (libelleCtrl.errors?.['required']) {
+                     @if (libelleCtrl.hasError('required')) {
                      <div>Le libellé est obligatoire.</div>
                      }
 
-                     @if (libelleCtrl.errors?.['minlength']) {
+                     @if (libelleCtrl.hasError('minlength')) {
                      <div>Le libellé doit contenir au moins 5 caractères.</div>
                      }
 
-                     @if (libelleCtrl.errors?.['maxlength']) {
+                     @if (libelleCtrl.hasError('maxlength')) {
                      <div>Le libellé ne peut pas dépasser 20 caractères.</div>
                      }
 
@@ -180,7 +180,7 @@ Dans le composant AjoutTacheTemplateDriven :
             @if (libelleCtrl.invalid && libelleCtrl.touched) {
             <div class="msg-erreur">
                 <!-- ... -->
-                @if (libelleCtrl.errors?.['libelleExiste']) {  <!-- 👈 -->
+                @if (libelleCtrl.hasError('libelleExiste')) {  <!-- 👈 -->
                 <div class="msg-erreur">Ce libellé existe déjà.</div>
                 }
 

@@ -11,19 +11,20 @@
     @if (libelleCtrl.invalid && libelleCtrl.touched) {
       <div class="msg-erreur">
 
-        @if (libelleCtrl.errors?.['required']) {
-          <div>Le libellé est obligatoire.</div>
+        @if (libelleCtrl.hasError('required')) {
+          <div>Le libellé est obligatoire</div>
         }
 
-        @if (libelleCtrl.errors?.['minlength']) {
-          <div>Le libellé doit contenir au moins 5 caractères.</div>
+        @if (libelleCtrl.hasError('minlength')) {
+          <div>Le libellé doit contenir au moins 5 caractères</div>
         }
 
-        @if (libelleCtrl.errors?.['maxlength']) {
-          <div>Le libellé ne peut pas dépasser 20 caractères.</div>
+        @if (libelleCtrl.hasError('maxlength')) {
+          <div>Le libellé ne peut pas dépasser 20 caractères</div>
         }
-        @if (libelleCtrl.errors?.['libelleExiste']) {
-          <div class="msg-erreur">Ce libellé existe déjà.</div>
+        @if (libelleCtrl.hasError('libelleExiste')) {
+          <div class="msg-erreur">Ce libellé existe déjà</div>
+          <div class="msg-erreur">{{libelleCtrl.getError('libelleExiste')}}</div>
         }
 
       </div>
