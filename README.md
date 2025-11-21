@@ -136,7 +136,7 @@ Dans le composant AjoutTacheTemplateDriven :
             providers: [
                 {
                     provide: NG_VALIDATORS, // 👈
-                    useExisting: LibelleUniqueValidator, // 👈
+                    useExisting: forwardRef(() =>LibelleUniqueValidator), // 👈
                     multi: true // Très important de garder le `multi:true`  // 👈
                 }
             ]
