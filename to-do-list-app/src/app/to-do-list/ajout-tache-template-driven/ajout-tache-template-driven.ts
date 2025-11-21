@@ -20,7 +20,6 @@ export class AjoutTacheTemplateDriven {
 
   // Méthode qui s'execute au submit du formulaire
   onSubmit(form: NgForm) {
-    if (form.valid) {
       const tache: Task = {
         id: 0,
         description: '',
@@ -30,7 +29,6 @@ export class AjoutTacheTemplateDriven {
 
       this.nouvelleTache.emit(tache); // Émission de la tâche à créer au parent avec le output
       form.resetForm(); // Remise à zéro du formulaire
-    } // Si le form est invalide, on ne fait rien
   }
 
 }

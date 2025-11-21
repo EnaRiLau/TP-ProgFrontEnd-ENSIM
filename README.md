@@ -45,7 +45,7 @@
         <form #form="ngForm" (ngSubmit)="onSubmit(form)">
         <div>
             <label>Libellé :</label>
-            <input type="text" name="libelle" [(ngModel)]="model.libelle" required />
+            <input type="text" name="libelle" [(ngModel)]="model.libelle" />
         </div>
 
         <div>
@@ -74,7 +74,6 @@
             }
 
             onSubmit(form: NgForm) { // 👈
-                if (form.valid) {
                 const tache: Task = {
                     id: 0,
                     description: '',
@@ -84,7 +83,6 @@
 
                 this.nouvelleTache.emit(tache);
                 form.resetForm();
-                }
             }
 
         }
