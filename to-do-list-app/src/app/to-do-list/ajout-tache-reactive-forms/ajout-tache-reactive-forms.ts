@@ -1,5 +1,5 @@
 import { Component, inject, output } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task } from '../task';
 
 @Component({
@@ -18,11 +18,18 @@ export class AjoutTacheReactiveForms {
 
   // Déclaration du formulaire
   form = this.fb.group({
-    libelle :this.fb.control(''),
+    libelle :this.fb.control('', [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(20)
+    ]),
     done: this.fb.control(false)
   });
 
   onSubmit(): void {
+    if (this.form.invalid) {
+      return;
+    }
     // Récupération de la valeur du formulaire
     const value = this.form.value;
 

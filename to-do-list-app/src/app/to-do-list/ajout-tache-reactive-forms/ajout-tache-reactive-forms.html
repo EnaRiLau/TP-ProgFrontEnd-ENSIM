@@ -1,10 +1,21 @@
 <form (ngSubmit)="onSubmit()"
       [formGroup]="form"> <!-- On attache le "group" général au formulaire -->
 
-  <div>
-    <label for="libelle">Libellé</label>
-    <input id="libelle" type="text"
-           formControlName="libelle" /> <!-- On attache le "control" "libelle" au champ -->
+    <div class="champ" [class.champ-invalide]="form.get('libelle')?.invalid">
+      <label for="libelle">Libellé</label>
+      <input id="libelle" type="text"
+              formControlName="libelle" /> <!-- On attache le "control" "libelle" au champ -->
+
+      @let libelleControl = form.get('libelle')!;
+      @if (libelleControl.getError('required'); as required) {
+        <div>Le champ est obligatoire</div>
+      }
+      @else if (libelleControl.getError('minlength'); as min) {
+        <div>Le champ doit contenir {{min.requiredLength}} caractères minimum (actuellement : {{min.actualLength}})</div>
+      }
+      @else if (libelleControl.getError('maxlength'); as max) {
+        <div>Le champ doit contenir {{max.requiredLength}} caractères maximum (actuellement : {{max.actualLength}})</div>
+      }
   </div>
 
   <div>
@@ -13,6 +24,6 @@
            formControlName="done" /> <!-- On attache le "control" "done" au input -->
   </div>
 
-  <button type="submit">Ajouter</button>
+  <button type="submit" [disabled]="form.invalid">Ajouter</button>
 
 </form>

@@ -1,6 +1,68 @@
 # Correction étape par étape des différents TP
 
-## TP 7.1 - Formulaire Reactive Forms
+## TP 7.2-bis - Vaidation du formulaire
+
+Dans le composant **`AjoutTacheReactiveForm`** :
+
+1. Rendre le champ **`libelle`** :  
+→ obligatoire  
+→ nécessitant entre 5 et 20 caractères
+    ```ts
+    form = this.fb.group({
+        libelle :this.fb.control('', [
+            Validators.required,
+            Validators.minLength(5),
+            Validators.maxLength(20)
+        ]),
+        // done
+    });
+    ```
+2. Lorsque le champ est invalide :  
+    → afficher le `label` en rouge
+    → mettre les bordures du champ en rouge  
+    ```html
+        <div [class.champ-invalide]="form.get('libelle')?.invalid">
+        <!-- label + input -->
+    </div>
+    ```
+    ```css
+    .champ-invalide {
+        color: red;
+    }
+    .champ-invalide input {
+        border-color: 1px solid red;
+    }
+    ```
+    → afficher un message, en rouge, sous le champ
+    ```html
+    <!-- input -->
+    @let libelleControl = form.get('libelle')!;
+    @if (libelleControl.getError('required'); as required) {
+        <div>Le champ est obligatoire</div>
+    }
+    @else if (libelleControl.getError('minlength'); as min) {
+        <div>Le champ doit contenir {{min.requiredLength}} caractères minimum (actuellement : {{min.actualLength}})</div>
+    }
+    @else if (libelleControl.getError('maxlength'); as max) {
+        <div>Le champ doit contenir {{max.requiredLength}} caractères maximum (actuellement : {{max.actualLength}})</div>
+    }
+    ```
+    → désactiver le bouton de soumission  
+    ```html
+    <button type="submit" [disabled]="form.invalid">Ajouter</button>
+    ```
+    → empêcher le déclenchement du l'`output`
+    ```ts
+    onSubmit(): void {
+        if (this.form.invalid) {
+           return;
+        }
+        // const value = this.form.value;
+        // ...
+    }
+    ```
+
+## TP 7.1-bis - Formulaire Reactive Forms
 
 1. Créer le composant **`ajout-tache-reactive-form`**  
     ```bash

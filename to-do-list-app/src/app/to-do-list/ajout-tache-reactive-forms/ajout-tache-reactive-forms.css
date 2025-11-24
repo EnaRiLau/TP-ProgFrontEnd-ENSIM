@@ -1,0 +1,7 @@
+.champ-invalide {
+  color: red;
+}
+
+.champ-invalide input {
+  border-color: 1px solid red;
+}
