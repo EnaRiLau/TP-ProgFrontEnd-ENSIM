@@ -1,0 +1,18 @@
+<form (ngSubmit)="onSubmit()"
+      [formGroup]="form"> <!-- On attache le "group" général au formulaire -->
+
+  <div>
+    <label for="libelle">Libellé</label>
+    <input id="libelle" type="text"
+           formControlName="libelle" /> <!-- On attache le "control" "libelle" au champ -->
+  </div>
+
+  <div>
+    <label for="done">Terminé</label>
+    <input id="done" type="checkbox"
+           formControlName="done" /> <!-- On attache le "control" "done" au input -->
+  </div>
+
+  <button type="submit">Ajouter</button>
+
+</form>

@@ -1,5 +1,62 @@
 # Correction étape par étape des différents TP
 
+## TP 7.1 - Formulaire Reactive Forms
+
+1. Créer le composant **`ajout-tache-reactive-form`**  
+    ```bash
+    ng g c to-do-list/ajout-tache-reactive-form
+    ```
+
+2. Dans le composant **`AjoutTacheReactiveForm`** :
+    - Créer un formulaire contenant :  
+    → un champ pour saisir le **`libelle`** de la tâche  
+    → un champ pour indiquer l'état **`done`** de la tâche  
+    → un bouton de soumission  
+        ```ts
+        private fb = inject(FormBuilder);
+
+        form = this.fb.group({
+            libelle :this.fb.control(''),
+            done: this.fb.control(false)
+        });
+        ```
+        ```html
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div>
+                <label for="libelle">Libellé</label>
+                <input id="libelle" type="text" formControlName="libelle" />
+            </div>
+            <div>
+                <label for="done">Terminé</label>
+                <input id="done" type="checkbox" formControlName="done" />
+            </div>
+            <button type="submit">Ajouter</button>
+        </form>
+        ```
+    - Créer un output **`nouvelleTache`**
+        ```ts
+        nouvelleTache = output<Task>();
+        ```
+    - À la soumission du formulaire, créer un objet de type **`Task`** et l'envoyer via l'output
+        ```ts
+        onSubmit(): void {
+            const value = this.form.value;
+            this.nouvelleTache.emit({
+                id: 0,
+                description: '',
+                libelle: value.libelle ?? '',
+                done: value.done ?? true
+            });
+        }
+        ```
+3. Dans le composant **`ToDoList`** :
+    - Remplacer le composant `AjoutTacheTemplateDrivent` par le **`AjoutTacheReactiveForm`**
+    - À la réception d'un événement nouvelleTache, appeler la méthode enregistrer du service
+        ```html
+        <app-ajout-tache-reactive-forms (nouvelleTache)="ajouterTache($event)"/>
+        ```
+
+
 ## TP 7.2 - Validation d'un formulaire template driven
 
 Dans le composant AjoutTacheTemplateDriven :

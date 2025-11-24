@@ -3,11 +3,11 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { GestionTaches } from './gestion-taches';
 import { Task } from './task';
 import { Tache } from "./tache/tache";
-import { AjoutTacheTemplateDriven } from './ajout-tache-template-driven/ajout-tache-template-driven';
+import { AjoutTacheReactiveForms } from "./ajout-tache-reactive-forms/ajout-tache-reactive-forms";
 
 @Component({
   selector: 'app-to-do-list',
-  imports: [RouterLink, Tache, AjoutTacheTemplateDriven],
+  imports: [RouterLink, Tache, AjoutTacheReactiveForms],
   templateUrl: './to-do-list.html',
   styleUrl: './to-do-list.css',
 })
