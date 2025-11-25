@@ -16,6 +16,12 @@
       @else if (libelleControl.getError('maxlength'); as max) {
         <div>Le champ doit contenir {{max.requiredLength}} caractères maximum (actuellement : {{max.actualLength}})</div>
       }
+      @else if (libelleControl.getError('libelleExiste')) {
+        <div>La tâche existe déjà</div>
+      }
+      @else {
+        <div>Le champ est invalide</div>
+      }
   </div>
 
   <div>

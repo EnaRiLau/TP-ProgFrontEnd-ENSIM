@@ -1,6 +1,7 @@
 import { Component, inject, output } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Task } from '../task';
+import { GestionTaches } from '../gestion-taches';
 
 @Component({
   selector: 'app-ajout-tache-reactive-forms',
@@ -9,6 +10,9 @@ import { Task } from '../task';
   styleUrl: './ajout-tache-reactive-forms.css',
 })
 export class AjoutTacheReactiveForms {
+
+  // Service de gestion de tâches pour tester les libellés
+  private gestionTaches = inject(GestionTaches);
 
   // Service utilitaire pour créer la config du formulaire
   private fb = inject(FormBuilder);
@@ -21,7 +25,8 @@ export class AjoutTacheReactiveForms {
     libelle :this.fb.control('', [
       Validators.required,
       Validators.minLength(5),
-      Validators.maxLength(20)
+      Validators.maxLength(20),
+      this.gestionTaches.libelleExisteValidator // On ajoute directement le validator géré par le service
     ]),
     done: this.fb.control(false)
   });
@@ -42,4 +47,5 @@ export class AjoutTacheReactiveForms {
       done: value.done ?? true
     });
   }
+
 }

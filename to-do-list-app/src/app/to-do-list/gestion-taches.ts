@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Task } from './task';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -56,9 +57,18 @@ export class GestionTaches {
     this.tasks.push(tache);
   }
 
-  libelleExiste(libelle: string): boolean {
-      // Retournera true si au moins 1 élément à le même libellé que le paramètre de la méthode
-      return this.tasks.some(t => t.libelle.toLowerCase() === libelle.toLowerCase()); 
+  // Le service peut exposer le validator car c'est lui qui maitrise la donnée
+  //   (et le service n'est pas compliqué, donc on peut se le permettre)
+  // ⚠️ a bien utiliser une array function pour que le "this" soit celui du service et non pas "undefined"
+  libelleExisteValidator = (control: AbstractControl): ValidationErrors | null => {
+    const libelle = control.value ?? '';
+
+    if (!libelle.trim()) {
+      return null; // Ne pas valider si vide car rôle du validator `required`
+    }
+    return this.tasks.some(t => t.libelle.toLowerCase() === libelle.toLowerCase())
+        ? { libelleExiste: true }
+        : null;
   }
 
 }
